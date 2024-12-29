@@ -49,10 +49,10 @@ target_include_directories(sokol INTERFACE sokol)
 
 #=== EXECUTABLE
 if(CMAKE_SYSTEM_NAME STREQUAL Windows)
-    add_executable(${PROJECT_NAME} WIN32 app.cpp)
+    add_executable(${PROJECT_NAME} WIN32 src/app.cpp)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 else()
-    add_executable(${PROJECT_NAME} app.cpp)
+    add_executable(${PROJECT_NAME} src/app.cpp)
 endif()
 target_link_libraries(${PROJECT_NAME} sokol)
 

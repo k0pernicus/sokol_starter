@@ -7,6 +7,7 @@
 #endif
 
 #include "cimgui.h"
+#include "debug.hpp"
 #include "sokol_app.h"
 #include "sokol_gfx.h"
 #include "sokol_glue.h"
@@ -41,6 +42,7 @@ static void draw_ui(void)
     igSetNextWindowPos((ImVec2){10, 10}, ImGuiCond_Once);
     igSetNextWindowSize((ImVec2){400, 100}, ImGuiCond_Once);
     igBegin("Dear Imgui!", 0, ImGuiWindowFlags_None);
+    igText("Hey there, this is some text!");
     igColorEdit3("Background", &state.pass_action.colors[0].clear_value.r, ImGuiColorEditFlags_None);
     igEnd();
 }
@@ -76,6 +78,20 @@ static void cleanup(void)
 
 static void event(const sapp_event* ev)
 {
+    if (SAPP_EVENTTYPE_KEY_DOWN == ev->type)
+    {
+        switch (ev->key_code)
+        {
+            case SAPP_KEYCODE_ESCAPE:
+                LOG_INFO("Escape key has been hit!");
+                sapp_request_quit();
+                break;
+            default:
+                LOG_INFO("Unmanaged key with code %d", (int)ev->key_code);
+                break;
+        }
+    }
+    // Send to imgui to manage widgets events
     simgui_handle_event(ev);
 }
 
