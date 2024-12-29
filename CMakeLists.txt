@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
-project(cimgui-sokol-starterkit)
+set(PROJECT_NAME app)
+
+project(${PROJECT_NAME})
 set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 # Linux -pthread shenanigans
 if (CMAKE_SYSTEM_NAME STREQUAL Linux)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -45,30 +47,30 @@ endif()
 target_link_libraries(sokol PUBLIC cimgui)
 target_include_directories(sokol INTERFACE sokol)
 
-#=== EXECUTABLE: demo
+#=== EXECUTABLE
 if(CMAKE_SYSTEM_NAME STREQUAL Windows)
-    add_executable(demo WIN32 demo.c)
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT demo)
+    add_executable(${PROJECT_NAME} WIN32 app.cpp)
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 else()
-    add_executable(demo demo.c)
+    add_executable(${PROJECT_NAME} app.cpp)
 endif()
-target_link_libraries(demo sokol)
+target_link_libraries(${PROJECT_NAME} sokol)
 
 # Emscripten-specific linker options
 if (CMAKE_SYSTEM_NAME STREQUAL Emscripten)
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
     # use our own minimal shell.html
-    target_link_options(demo PRIVATE --shell-file ../sokol/shell.html)
+    target_link_options(${PROJECT_NAME} PRIVATE --shell-file ../sokol/shell.html)
     # link with WebGL2
-    target_link_options(demo PRIVATE -sUSE_WEBGL2=1)
+    target_link_options(${PROJECT_NAME} PRIVATE -sUSE_WEBGL2=1)
     # WASM+JS size optimizations
-    target_link_options(demo PRIVATE -sNO_FILESYSTEM=1 -sASSERTIONS=0 -sMALLOC=emmalloc --closure=1)
+    target_link_options(${PROJECT_NAME} PRIVATE -sNO_FILESYSTEM=1 -sASSERTIONS=0 -sMALLOC=emmalloc --closure=1)
 endif()
 
 # explicitly strip dead code
 if (CMAKE_C_COMPILER_ID MATCHES "Clang" AND NOT CMAKE_SYSTEM_NAME STREQUAL Emscripten)
-    target_link_options(demo PRIVATE LINKER:-dead_strip)
+    target_link_options(${PROJECT_NAME} PRIVATE LINKER:-dead_strip)
 endif()
 
 # this hack removes the xxx-CMakeForceLinker.cxx dummy file
-set_target_properties(demo PROPERTIES LINKER_LANGUAGE C)
+set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)

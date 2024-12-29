@@ -1,16 +1,7 @@
-# cimgui-sokol-starterkit
+# Sokol Starter
 
-A minimal cross-platform starter-kit to write simple
-Dear ImGui tools for Windows, Linux and macOS in C.
-
-[WASM version](https://floooh.github.io/cimgui-sokol-starterkit/) (see below for build instructions)
-
-## Clone:
-
-```bash
-> git clone https://github.com/floooh/cimgui-sokol-starterkit
-> cd cimgui-sokol-starterkit
-```
+A cross-platform application with Sokol + Dear ImGui, for Windows, Linux and macOS in C & C++.  
+Forked from [the official starter project](https://github.com/floooh/cimgui-sokol-starterkit).
 
 ## Build:
 
@@ -47,13 +38,13 @@ NOTE: on Linux you'll also need to install the 'usual' dev-packages needed for X
 
 On Linux and macOS:
 ```bash
-> ./demo
+> ./app
 ```
 
 On Windows with the Visual Studio toolchain the exe is in a subdirectory:
 ```bash
-> Debug\demo.exe
-> MinSizeRel\demo.exe
+> Debug\app.exe
+> MinSizeRel\app.exe
 ```
 
 ## Build and Run WASM/HTML version via Emscripten (Linux, macOS)
@@ -64,7 +55,7 @@ https://emscripten.org/docs/getting_started/downloads.html#installation-instruct
 
 Don't forget to run ```source ./emsdk_env.sh``` after activating the SDK.
 
-And then in the ```cimgui-sokol-starterkit``` directory:
+And then in the code directory:
 
 ```
 mkdir build
@@ -76,10 +67,8 @@ cmake --build .
 To run the compilation result in the system web browser:
 
 ```
-> emrun demo.html
+> emrun app.html
 ```
-
-...which should look like [this](https://floooh.github.io/cimgui-sokol-starterkit/).
 
 ## IDE Support
 
@@ -128,6 +117,6 @@ I tried to keep the CMake file as simple as possible (unfortunately
 it's not quite as simple as I had liked, because of some cross-platform
 differences).
 
-All the important code is in ```demo.c```.
+All the important code is in ```app.cpp```.
 
 Enjoy!
